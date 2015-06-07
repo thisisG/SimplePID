@@ -43,9 +43,10 @@ class SimplePID():
     __coeff_c = 0.0
     __min_output = 0.0
     __max_output = 0.0
+    __PID_direction_direct = True
 
     def __init__(self, a_set_point, a_min_output, a_max_output, a_kp, a_ki,
-                 a_kd):
+                 a_kd, a_direction_direct = True):
         self.__last_time_ms = time.clock()
         self.__set_point = a_set_point
         self.__min_output = a_min_output
@@ -53,6 +54,14 @@ class SimplePID():
         self.__kp = a_kp
         self.__ki = a_ki
         self.__kd = a_kd
+        self.__PID_direction_direct = a_direction_direct
+        self.__update_coeffs()
+
+    def get_controller_direction(self):
+        return __PID_direction_direct
+
+    def set_controller_direction(self, a_direction_direct):
+        __PID_direction_direct = a_direction_direct
         self.__update_coeffs()
 
     def get_delta_time_ms(self):
@@ -116,16 +125,36 @@ class SimplePID():
         self.__update_coeff_c()
 
     def __update_coeff_a(self):
-        factor_1 = self.__kp
-        factor_2 = self.__ki * (self.__delta_time_ms / (1000 * 2))
-        factor_3 = self.__kd / (self.__delta_time_ms / 1000)
+        if self.__PID_direction_direct == True:
+            kp = self.__kp
+            ki = self.__ki
+            kd = self.__kd
+        else:
+            kp = 0 - self.__kp
+            ki = 0 - self.__ki
+            kd = 0 - self.__kd
+        factor_1 = kp
+        factor_2 = ki * (self.__delta_time_ms / (1000 * 2))
+        factor_3 = kd / (self.__delta_time_ms / 1000)
         self.__coeff_a = factor_1 + factor_2 + factor_3
 
     def __update_coeff_b(self):
-        factor_1 = - self.__kp
-        factor_2 = self.__ki * (self.__delta_time_ms / (1000 * 2))
-        factor_3 = - ((2 * self.__kd) / (self.__delta_time_ms / 1000))
+        if self.__PID_direction_direct == True:
+            kp = self.__kp
+            ki = self.__ki
+            kd = self.__kd
+        else:
+            kp = 0 - self.__kp
+            ki = 0 - self.__ki
+            kd = 0 - self.__kd
+        factor_1 = - kp
+        factor_2 = ki * (self.__delta_time_ms / (1000 * 2))
+        factor_3 = - ((2 * kd) / (self.__delta_time_ms / 1000))
         self.__coeff_b = factor_1 + factor_2 + factor_3
 
     def __update_coeff_c(self):
-        self.__coeff_c = self.__kd / (self.__delta_time_ms / 1000)
+        if self.__PID_direction_direct == True:
+            kd = self.__kd
+        else:
+            kd = 0 - self.__kd
+        self.__coeff_c = kd / (self.__delta_time_ms / 1000)
