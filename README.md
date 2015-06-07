@@ -1,2 +1,2 @@
 # SimplePID
-A basic Python discrete PID controller. Designed to function with only the standard library.
+A basic discrete PID controller implemented in Python. Designed to function with only the standard library.
