@@ -25,7 +25,7 @@ mpu = MPU6050(i2c_bus, device_address, x_accel_offset, y_accel_offset,
               z_accel_offset, x_gyro_offset, y_gyro_offset, z_gyro_offset,
               enable_debug_output)
 
-pid = SimplePID(0, -15000, 15000, 1, 1, 1, 100, True)
+pid = SimplePID(0, -15000, 15000, 0.001, 0.0001, 0.0001, 100, True)
 
 pid.set_delta_time_ms(100)
 
