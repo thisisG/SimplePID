@@ -56,7 +56,7 @@ try:
             x_accel_offset = pid.get_output_value(x_accel_reading)
             mpu.set_x_accel_offset(int(x_accel_offset))
             x_accel_avg[index] = x_accel_reading
-            x_accel_offset_avg = x_accel_offset
+            x_accel_offset_avg[index] = x_accel_offset
             index += 1
             if index == len(x_accel_avg):
                 index = 0
