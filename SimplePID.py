@@ -46,7 +46,7 @@ class SimplePID():
     __PID_direction_direct = True
 
     def __init__(self, a_set_point, a_min_output, a_max_output, a_kp, a_ki,
-                 a_kd, a_direction_direct = True):
+                 a_kd, a_delta_time_ms = 100, a_direction_direct = True):
         self.__last_time_ms = time.clock()
         self.__set_point = a_set_point
         self.__min_output = a_min_output
@@ -54,6 +54,7 @@ class SimplePID():
         self.__kp = a_kp
         self.__ki = a_ki
         self.__kd = a_kd
+        self.__delta_time_ms = a_delta_time_ms
         self.__PID_direction_direct = a_direction_direct
         self.__update_coeffs()
 

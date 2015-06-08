@@ -65,7 +65,7 @@ class MPU6050:
 
     def __init__(self, a_bus=1, a_address=C.MPU6050_DEFAULT_ADDRESS,
                  a_xAOff=None, a_yAOff=None, a_zAOff=None, a_xGOff=None,
-                 a_yGOff=None, a_zGOff=None, a_delta_time=100, a_debug=False):
+                 a_yGOff=None, a_zGOff=None, a_debug=False):
         self.__dev_id = a_address
         # Connect to num 1 SMBus
         self.__bus = smbus.SMBus(a_bus)
