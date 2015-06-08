@@ -53,7 +53,7 @@ try:
             x_accel_reading = accel_reading[0]
             y_accel_reading = accel_reading[1]
             z_accel_reading = accel_reading[2]
-            x_accel_offset = pid.get_output_calue(x_accel_reading)
+            x_accel_offset = pid.get_output_value(x_accel_reading)
             mpu.set_x_accel_offset(x_accel_offset)
             x_accel_avg[index] = x_accel_reading
             x_accel_offset_avg = x_accel_offset
