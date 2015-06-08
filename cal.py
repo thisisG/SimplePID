@@ -64,7 +64,7 @@ try:
         x_accel_reading = accel_reading[0]
         y_accel_reading = accel_reading[1]
         z_accel_reading = accel_reading[2]
-        if pid.axcheck_time():
+        if pidax.check_time():
             x_accel_offset = pidax.get_output_value(x_accel_reading)
 
             mpu.set_x_accel_offset(int(x_accel_offset))
