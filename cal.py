@@ -30,7 +30,12 @@ kp = 0.03125
 ki = 0.25
 kd = 0
 
-pid = SimplePID(0, -15000, 15000, kp, ki, kd, 100, True)
+pidax = SimplePID(0, -15000, 15000, kp, ki, kd, 100, True)
+piday = SimplePID(0, -15000, 15000, kp, ki, kd, 100, True)
+pidaz = SimplePID(0, -15000, 15000, kp, ki, kd, 100, True)
+pidgx = SimplePID(0, -15000, 15000, kp, ki, kd, 100, True)
+pidgy = SimplePID(0, -15000, 15000, kp, ki, kd, 100, True)
+pidgz = SimplePID(0, -15000, 15000, kp, ki, kd, 100, True)
 
 #pid.set_delta_time_ms(100)
 
@@ -58,11 +63,21 @@ try:
         y_accel_reading = accel_reading[1]
         z_accel_reading = accel_reading[2]
         if pid.check_time():
-            x_accel_offset = pid.get_output_value(x_accel_reading)
-            print('read: ' + str(x_accel_reading) + ' off: ' + str(x_accel_offset))
+            x_accel_offset = pidax.get_output_value(x_accel_reading)
+            y_accel_offset = piday.get_output_value(y_accel_reading)
+            z_accel_offset = pidaz.get_output_value(z_accel_reading)
+
             mpu.set_x_accel_offset(int(x_accel_offset))
+            mpu.set_y_accel_offset(int(y_accel_offset))
+            mpu.set_z_accel_offset(int(z_accel_offset))
+
             x_accel_avg[index] = x_accel_reading
             x_accel_offset_avg[index] = x_accel_offset
+            y_accel_avg[index] = y_accel_reading
+            y_accel_offset_avg[index] = y_accel_offset
+            z_accel_avg[index] = z_accel_reading
+            z_accel_offset_avg[index] = z_accel_offset
+
             index += 1
             if index == len(x_accel_avg):
                 index = 0
@@ -70,5 +85,13 @@ try:
                       str(avg_from_array(x_accel_avg)) +
                       ' x_avg_offset: ' +
                       str(avg_from_array(x_accel_offset_avg)))
+                print('y_avg_read: ' +
+                      str(avg_from_array(y_accel_avg)) +
+                      ' y_avg_offset: ' +
+                      str(avg_from_array(y_accel_offset_avg)))
+                print('z_avg_read: ' +
+                      str(avg_from_array(z_accel_avg)) +
+                      ' z_avg_offset: ' +
+                      str(avg_from_array(z_accel_offset_avg)))
 except KeyboardInterrupt:
     pass
