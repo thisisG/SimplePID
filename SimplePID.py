@@ -30,7 +30,7 @@ import time
 
 class SimplePID():
     __last_time_ms = 0.0
-    __delta_time_ms = 0.0
+    __delta_time_ms = 100
     __kp = 0.0
     __ki = 0.0
     __kd = 0.0
