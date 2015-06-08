@@ -3,8 +3,9 @@ from SimplePID import SimplePID
 
 
 def avg_from_array(a_array):
+    sum = 0.0
     for index in range(0, len(a_array)):
-        sum = a_array[index]
+        sum += a_array[index]
 
     return sum/len(a_array)
 
@@ -25,9 +26,13 @@ mpu = MPU6050(i2c_bus, device_address, x_accel_offset, y_accel_offset,
               z_accel_offset, x_gyro_offset, y_gyro_offset, z_gyro_offset,
               enable_debug_output)
 
-pid = SimplePID(0, -15000, 15000, 0.001, 0.0001, 0.0001, 100, True)
+kp = 0.03125
+ki = 0.25
+kd = 0
 
-pid.set_delta_time_ms(100)
+pid = SimplePID(0, -15000, 15000, kp, ki, kd, 100, True)
+
+#pid.set_delta_time_ms(100)
 
 accel_reading = mpu.get_acceleration()
 
@@ -48,11 +53,11 @@ index = 0
 
 try:
     while True:
+        accel_reading = mpu.get_acceleration()
+        x_accel_reading = accel_reading[0]
+        y_accel_reading = accel_reading[1]
+        z_accel_reading = accel_reading[2]
         if pid.check_time():
-            accel_reading = mpu.get_acceleration()
-            x_accel_reading = accel_reading[0]
-            y_accel_reading = accel_reading[1]
-            z_accel_reading = accel_reading[2]
             x_accel_offset = pid.get_output_value(x_accel_reading)
             print('read: ' + str(x_accel_reading) + ' off: ' + str(x_accel_offset))
             mpu.set_x_accel_offset(int(x_accel_offset))
