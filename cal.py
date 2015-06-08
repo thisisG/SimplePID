@@ -54,7 +54,9 @@ x_accel_offset_avg = [0]*100
 y_accel_offset_avg = [0]*100
 z_accel_offset_avg = [0]*100
 
-index = 0
+axindex = 0
+ayindex = 0
+azindex = 0
 
 try:
     while True:
@@ -62,25 +64,17 @@ try:
         x_accel_reading = accel_reading[0]
         y_accel_reading = accel_reading[1]
         z_accel_reading = accel_reading[2]
-        if pid.check_time():
+        if pid.axcheck_time():
             x_accel_offset = pidax.get_output_value(x_accel_reading)
-            y_accel_offset = piday.get_output_value(y_accel_reading)
-            z_accel_offset = pidaz.get_output_value(z_accel_reading)
 
             mpu.set_x_accel_offset(int(x_accel_offset))
-            mpu.set_y_accel_offset(int(y_accel_offset))
-            mpu.set_z_accel_offset(int(z_accel_offset))
 
-            x_accel_avg[index] = x_accel_reading
-            x_accel_offset_avg[index] = x_accel_offset
-            y_accel_avg[index] = y_accel_reading
-            y_accel_offset_avg[index] = y_accel_offset
-            z_accel_avg[index] = z_accel_reading
-            z_accel_offset_avg[index] = z_accel_offset
+            x_accel_avg[axindex] = x_accel_reading
+            x_accel_offset_avg[axindex] = x_accel_offset
 
-            index += 1
-            if index == len(x_accel_avg):
-                index = 0
+            axindex += 1
+            if axindex == len(x_accel_avg):
+                axindex = 0
                 print('x_avg_read: ' +
                       str(avg_from_array(x_accel_avg)) +
                       ' x_avg_offset: ' +
@@ -93,5 +87,31 @@ try:
                       str(avg_from_array(z_accel_avg)) +
                       ' z_avg_offset: ' +
                       str(avg_from_array(z_accel_offset_avg)))
+
+        if piday.check_time():
+            y_accel_offset = piday.get_output_value(y_accel_reading)
+
+            mpu.set_y_accel_offset(int(y_accel_offset))
+
+            y_accel_avg[ayindex] = y_accel_reading
+            y_accel_offset_avg[ayindex] = y_accel_offset
+
+            ayindex += 1
+            if ayindex == len(y_accel_avg):
+                ayindex = 0
+
+        if pidaz.check_time():
+            z_accel_offset = pidaz.get_output_value(z_accel_reading)
+
+            mpu.set_z_accel_offset(int(z_accel_offset))
+
+            z_accel_avg[azindex] = z_accel_reading
+            z_accel_offset_avg[azindex] = z_accel_offset
+
+            azindex += 1
+            if azindex == len(z_accel_avg):
+                azindex = 0
+
+
 except KeyboardInterrupt:
     pass
