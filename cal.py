@@ -32,9 +32,9 @@ pid.set_delta_time_ms(100)
 accel_reading = mpu.get_acceleration()
 
 
-x_accel_reading = accel[0]
-y_accel_reading = accel[1]
-z_accel_reading = accel[2]
+x_accel_reading = accel_reading[0]
+y_accel_reading = accel_reading[1]
+z_accel_reading = accel_reading[2]
 
 x_accel_avg = [0]*100
 y_accel_avg = [0]*100
@@ -50,9 +50,9 @@ try:
     while True:
         if pid.check_time():
             accel_reading = mpu.get_acceleration()
-            x_accel_reading = accel[0]
-            y_accel_reading = accel[1]
-            z_accel_reading = accel[2]
+            x_accel_reading = accel_reading[0]
+            y_accel_reading = accel_reading[1]
+            z_accel_reading = accel_reading[2]
             x_accel_offset = pid.get_output_calue(x_accel_reading)
             mpu.set_x_accel_offset(x_accel_offset)
             x_accel_avg[index] = x_accel_reading
