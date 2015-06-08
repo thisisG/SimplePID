@@ -30,7 +30,7 @@ import time
 
 class SimplePID():
     __last_time_ms = 0.0
-    __delta_time_ms = 100
+    __delta_time_ms = 0.0
     __kp = 0.0
     __ki = 0.0
     __kd = 0.0
@@ -127,35 +127,35 @@ class SimplePID():
 
     def __update_coeff_a(self):
         if self.__PID_direction_direct == True:
-            kp = self.__kp
-            ki = self.__ki
-            kd = self.__kd
+            kp = float(self.__kp)
+            ki = float(self.__ki)
+            kd = float(self.__kd)
         else:
-            kp = 0 - self.__kp
-            ki = 0 - self.__ki
-            kd = 0 - self.__kd
+            kp = 0.0 - self.__kp
+            ki = 0.0 - self.__ki
+            kd = 0.0 - self.__kd
         factor_1 = kp
-        factor_2 = ki * (self.__delta_time_ms / (1000 * 2))
-        factor_3 = kd / (self.__delta_time_ms / 1000)
+        factor_2 = ki * (self.__delta_time_ms / (1000.0 * 2.0))
+        factor_3 = kd / (self.__delta_time_ms / 1000.0)
         self.__coeff_a = factor_1 + factor_2 + factor_3
 
     def __update_coeff_b(self):
         if self.__PID_direction_direct == True:
-            kp = self.__kp
-            ki = self.__ki
-            kd = self.__kd
+            kp = float(self.__kp)
+            ki = float(self.__ki)
+            kd = float(self.__kd)
         else:
-            kp = 0 - self.__kp
-            ki = 0 - self.__ki
-            kd = 0 - self.__kd
+            kp = 0.0 - self.__kp
+            ki = 0.0 - self.__ki
+            kd = 0.0 - self.__kd
         factor_1 = - kp
-        factor_2 = ki * (self.__delta_time_ms / (1000 * 2))
-        factor_3 = - ((2 * kd) / (self.__delta_time_ms / 1000))
+        factor_2 = ki * (self.__delta_time_ms / (1000.0 * 2.0))
+        factor_3 = - ((2.0 * kd) / (self.__delta_time_ms / 1000.0))
         self.__coeff_b = factor_1 + factor_2 + factor_3
 
     def __update_coeff_c(self):
         if self.__PID_direction_direct == True:
             kd = self.__kd
         else:
-            kd = 0 - self.__kd
-        self.__coeff_c = kd / (self.__delta_time_ms / 1000)
+            kd = 0.0 - self.__kd
+        self.__coeff_c = kd / (self.__delta_time_ms / 1000.0)
