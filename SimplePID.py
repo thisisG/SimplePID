@@ -23,8 +23,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-
-import sys
 import time
 
 
@@ -46,7 +44,7 @@ class SimplePID():
     __PID_direction_direct = True
 
     def __init__(self, a_set_point, a_min_output, a_max_output, a_kp, a_ki,
-                 a_kd, a_delta_time_ms = 100, a_direction_direct = True):
+                 a_kd, a_delta_time_ms=100, a_direction_direct=True):
         self.__last_time_ms = time.clock()
         self.__set_point = a_set_point
         self.__min_output = a_min_output
@@ -59,10 +57,10 @@ class SimplePID():
         self.__update_coeffs()
 
     def get_controller_direction(self):
-        return __PID_direction_direct
+        return self.__PID_direction_direct
 
     def set_controller_direction(self, a_direction_direct):
-        __PID_direction_direct = a_direction_direct
+        self.__PID_direction_direct = a_direction_direct
         self.__update_coeffs()
 
     def get_delta_time_ms(self):
@@ -126,7 +124,7 @@ class SimplePID():
         self.__update_coeff_c()
 
     def __update_coeff_a(self):
-        if self.__PID_direction_direct == True:
+        if self.__PID_direction_direct is True:
             kp = float(self.__kp)
             ki = float(self.__ki)
             kd = float(self.__kd)
@@ -140,7 +138,7 @@ class SimplePID():
         self.__coeff_a = factor_1 + factor_2 + factor_3
 
     def __update_coeff_b(self):
-        if self.__PID_direction_direct == True:
+        if self.__PID_direction_direct is True:
             kp = float(self.__kp)
             ki = float(self.__ki)
             kd = float(self.__kd)
@@ -154,7 +152,7 @@ class SimplePID():
         self.__coeff_b = factor_1 + factor_2 + factor_3
 
     def __update_coeff_c(self):
-        if self.__PID_direction_direct == True:
+        if self.__PID_direction_direct is True:
             kd = self.__kd
         else:
             kd = 0.0 - self.__kd
